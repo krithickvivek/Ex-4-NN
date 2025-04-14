@@ -1,12 +1,11 @@
-
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
-<H3>EX. NO.4</H3>
+<H3>NAME: Krithick Vivekananda</H3>
+<H3>REGISTER NO: 212223240075</H3>
+<H3>EX.NO.4</H3>
 <H3>DATE:</H3>
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
-<H3>Aim:</H3>
+## Aim:
 To implement a Multilayer Perceptron for Multi classification
-<H3>Theory</H3>
+## Theory
 
 A multilayer perceptron (MLP) is a feedforward artificial neural network that generates a set of outputs from a set of inputs. An MLP is characterized by several layers of input nodes connected as a directed graph between the input and output layers. MLP uses back propagation for training the network. MLP is a deep learning method.
 A multilayer perceptron is a neural network connecting multiple layers in a directed graph, which means that the signal path through the nodes only goes one way. Each node, apart from the input nodes, has a nonlinear activation function. An MLP uses backpropagation as a supervised learning technique.
@@ -95,32 +94,93 @@ In the backward pass,
 
 ![image](https://user-images.githubusercontent.com/112920679/198814362-05a251fd-fceb-43cd-867b-75e6339d870a.png)
 
-<H3>Algorithm:</H3>
+## Algorithm:
 
-1. Import the necessary libraries of python.
+<b>Step 1:</b> Import the necessary libraries of python.
 
-2. After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
+<b>Step 2:</b> After that, create a list of attribute names in the dataset and use it in a call to the read_csv() function of the pandas library along with the name of the CSV file containing the dataset.
 
-3. Divide the dataset into two parts. While the first part contains the first four columns that we assign in the variable x. Likewise, the second part contains only the last column that is the class label. Further, assign it to the variable y.
+<b>Step 3:</b> Divide the dataset into two parts. While the first part contains the first four columns that we assign in the variable x. Likewise, the second part contains only the last column that is the class label. Further, assign it to the variable y.
 
-4. Call the train_test_split() function that further divides the dataset into training data and testing data with a testing data size of 20%.
+<b>Step 4:</b> Call the train_test_split() function that further divides the dataset into training data and testing data with a testing data size of 20%.
 Normalize our dataset. 
 
-5. In order to do that we call the StandardScaler() function. Basically, the StandardScaler() function subtracts the mean from a feature and scales it to the unit variance.
+<b>Step 5:</b> In order to do that we call the StandardScaler() function. Basically, the StandardScaler() function subtracts the mean from a feature and scales it to the unit variance.
 
-6. Invoke the MLPClassifier() function with appropriate parameters indicating the hidden layer sizes, activation function, and the maximum number of iterations.
+<b>Step 6:</b> Invoke the MLPClassifier() function with appropriate parameters indicating the hidden layer sizes, activation function, and the maximum number of iterations.
 
-7. In order to get the predicted values we call the predict() function on the testing data set.
+<b>Step 7:</b> In order to get the predicted values we call the predict() function on the testing data set.
 
-8. Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
+<b>Step 8:</b> Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
 
-<H3>Program:</H3> 
+## Program: 
+```python
+import pandas as pd
+import sklearn
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 
-Insert your code here
+# Load the Iris dataset from UCI repository
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'Class']
+irisdata = pd.read_csv(url, names=names)
 
-<H3>Output:</H3>
+# Prepare features (X) and labels (y)
+X = irisdata.iloc[:, 0:4]
+y = irisdata.select_dtypes(include=[object])
 
-Show your results here
+# Display sample data
+print("Features (first 5 rows):")
+print(X.head())
+print("\nLabels (first 5 rows):")
+print(y.head())
 
-<H3>Result:</H3>
+# Show unique classes
+print("\nUnique classes in the dataset:")
+print(y.Class.unique())
+
+# Convert categorical labels to numerical values
+le = preprocessing.LabelEncoder()
+y = y.apply(le.fit_transform)
+print("\nEncoded labels (first 5 rows):")
+print(y.head())
+
+# Split data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+
+# Standardize features
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Create and train Multi-layer Perceptron classifier
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)
+mlp.fit(X_train, y_train.values.ravel())
+
+# Make predictions
+predictions = mlp.predict(X_test)
+print("\nModel predictions:")
+print(predictions)
+
+# Evaluate model performance
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, predictions))
+print("\nClassification Report:")
+print(classification_report(y_test, predictions))
+```
+## Output:
+![image](https://github.com/user-attachments/assets/56b75ad4-ba41-4204-ba2c-ae18a879b603)
+![image](https://github.com/user-attachments/assets/1159536b-a464-4fbe-bd1e-508c0a9ef562)
+![image](https://github.com/user-attachments/assets/d35f7f65-70e9-40e0-8182-e1ab733b6c79)
+![image](https://github.com/user-attachments/assets/c86b65f9-2476-4b1e-9beb-822abb88f674)
+
+![image](https://github.com/user-attachments/assets/e0633e6a-d788-4c7b-b595-d51383102cf0)
+![image](https://github.com/user-attachments/assets/c53ea735-e005-4294-a0bc-8f4e271f137f)
+
+
+## Result:
 Thus, MLP is implemented for multi-classification using python.
